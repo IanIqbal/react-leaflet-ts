@@ -72,13 +72,13 @@ export default function MapSection() {
                     //     long: -0.09
                     // })
                     console.log(latLang, "<<< latlang");
-                    // setInitLocate(true)
+                    setInitLocate(true)
                 }
                 //     setLatLang({
                 //     lat: 51.505,
                 //     long: -0.09
                 // })
-                setInitLocate(true)
+                // setInitLocate(true)
             } else {
                 setLatLang({
                     lat: 51.505,
