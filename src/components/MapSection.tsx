@@ -58,27 +58,27 @@ export default function MapSection() {
 
                 window.my.postMessage({ message: "request location" })
 
-                window.my.onMessage = async function (e: any) {
+                window.my.onMessage =  function (e: any) {
                     console.log(e, "<<<<<<<");
                     let { message } = e
-                    // setLatLang({
-                    //     lat: +message.latitude,
-                    //     long: +message.longitude
-                    // })
+                    setLatLang({
+                        lat: +message.latitude,
+                        long: +message.longitude
+                    })
                     console.log(message, "<<< message");
                     
-                    setLatLang({
-                        lat: 51.505,
-                        long: -0.09
-                    })
+                    // setLatLang({
+                    //     lat: 51.505,
+                    //     long: -0.09
+                    // })
                     console.log(latLang, "<<< latlang");
-                    setInitLocate(true)
+                    // setInitLocate(true)
                 }
                 //     setLatLang({
                 //     lat: 51.505,
                 //     long: -0.09
                 // })
-                // setInitLocate(true)
+                setInitLocate(true)
             } else {
                 setLatLang({
                     lat: 51.505,
