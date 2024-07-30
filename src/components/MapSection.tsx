@@ -69,12 +69,18 @@ export default function MapSection() {
                 window.my.onMessage = async function (e: any) {
                     console.log(e, "<<<<<<<");
                     let { message } = e
+                    // setLatLang({
+                    //     lat: +message.latitude,
+                    //     long: +message.longitude
+                    // })
+                    console.log(message, "<<< message");
+                    
                     setLatLang({
-                        lat: +message.latitude,
-                        long: +message.longitude
+                        lat: 51.505,
+                        long: -0.09
                     })
                     console.log(latLang, "<<< latlang");
-                    
+
                 }
                 //     setLatLang({
                 //     lat: 51.505,
@@ -100,10 +106,10 @@ export default function MapSection() {
         loadLocation()
     }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(latLang, "<<<<<<<< watch latlang");
-        
-    },[latLang])
+
+    }, [latLang])
     if (!isClient) {
         return null;
     }
