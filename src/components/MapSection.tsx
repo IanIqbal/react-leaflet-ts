@@ -42,42 +42,42 @@ export default function MapSection() {
 
                 // let test = { payload: popularMovies.results[0] }
                 // window.my.navigateTo({ url: "/pages/index/index"})
-                window.my.getLocation({
-                    success(res) {
-                        console.log(res, "<<<<");
-                        setLatLang({
-                            lat: +res.latitude,
-                            long: +res.longitude
-                        })
-                        setInitLocate(true)
-                    },
-                    fail(err) {
-                        console.log(err);
-                    }
-                })
-
-                // window.my.postMessage({ message: "request location" })
-
-                // window.my.onMessage = async function (e: any) {
-                //     console.log(e, "<<<<<<<");
-                //     let { message } = e
-                //     // setLatLang({
-                //     //     lat: +message.latitude,
-                //     //     long: +message.longitude
-                //     // })
-                //     console.log(message, "<<< message");
-                    
-                //     setLatLang({
-                //         lat: 51.505,
-                //         long: -0.09
-                //     })
-                //     console.log(latLang, "<<< latlang");
-                //     setInitLocate(true)
-                // }
-                //     setLatLang({
-                //     lat: 51.505,
-                //     long: -0.09
+                // window.my.getLocation({
+                //     success(res) {
+                //         console.log(res, "<<<<");
+                //         setLatLang({
+                //             lat: +res.latitude,
+                //             long: +res.longitude
+                //         })
+                //         setInitLocate(true)
+                //     },
+                //     fail(err) {
+                //         console.log(err);
+                //     }
                 // })
+
+                window.my.postMessage({ message: "request location" })
+
+                window.my.onMessage = async function (e: any) {
+                    console.log(e, "<<<<<<<");
+                    let { message } = e
+                    // setLatLang({
+                    //     lat: +message.latitude,
+                    //     long: +message.longitude
+                    // })
+                    console.log(message, "<<< message");
+                    
+                    setLatLang({
+                        lat: 51.505,
+                        long: -0.09
+                    })
+                    console.log(latLang, "<<< latlang");
+                    setInitLocate(true)
+                }
+                    setLatLang({
+                    lat: 51.505,
+                    long: -0.09
+                })
                 // setInitLocate(true)
             } else {
                 setLatLang({
