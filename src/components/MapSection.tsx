@@ -81,8 +81,8 @@ export default function MapSection() {
             navigator.userAgent.indexOf("AlipayClient") > -1 ||
             navigator.userAgent.indexOf("mPaaSClient") > -1
         ) {
-            // locateViaMpaas()
-            locateViaReact()
+            locateViaMpaas()
+            // locateViaReact()
         } else {
             locateHardCode()
         }
