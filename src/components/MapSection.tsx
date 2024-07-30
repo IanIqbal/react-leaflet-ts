@@ -99,6 +99,11 @@ export default function MapSection() {
 
         loadLocation()
     }, [])
+
+    useEffect(()=>{
+        console.log(latLang, "<<<<<<<< watch latlang");
+        
+    },[latLang])
     if (!isClient) {
         return null;
     }
