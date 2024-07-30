@@ -17,7 +17,7 @@ const RoutingInstance = () => {
     const instance = L.Routing.control({
         waypoints: [
             L.latLng(latLang.lat, latLang.long ),
-            L.latLng(latLang.lat + 10, latLang.long + 10)
+            L.latLng(latLang.lat + 0.20, latLang.long + 0.20)
         ],
         lineOptions: {
             styles: [{ color: "#6FA1EC", weight: 4 }],
