@@ -32,7 +32,7 @@ export default function MapSection() {
     const getLocation = () => {
         setLocate(true)
     }
-    const loadLocation = async () => {
+    const loadLocation =  () => {
         try {
             if (
                 navigator.userAgent.indexOf("AlipayClient") > -1 ||
@@ -78,7 +78,7 @@ export default function MapSection() {
                 //     lat: 51.505,
                 //     long: -0.09
                 // })
-                setInitLocate(true)
+                // setInitLocate(true)
             } else {
                 setLatLang({
                     lat: 51.505,
