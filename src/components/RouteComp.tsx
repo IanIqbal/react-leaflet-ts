@@ -12,7 +12,7 @@ const RoutingInstance = () => {
         throw new Error("context is undefined")
     }
     const {latLang} = context
-    console.log(latLang, "<<<<<<<<");
+    // console.log(latLang, "<<<<<<<<");
     
     const instance = L.Routing.control({
         waypoints: [

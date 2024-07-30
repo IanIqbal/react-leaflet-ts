@@ -17,7 +17,8 @@ declare global {
             postMessage: (value: Object) => {
 
             },
-            onMessage: (e: Message) => void;
+            onMessage : (e: any) => void;
+            // onMessage: (callback: (e: any) => void) => void
 
         }
     }
@@ -57,18 +58,26 @@ export default function MapSection() {
 
                 window.my.postMessage({ message: "request location" })
 
-                window.my.onMessage = (e: Message)=> {
-                    console.log("triggered");
+                
+                // window.my.onMessage = ((e?: Message) =>{
+                //     console.log("triggered on Message");
                     
-                    console.log(e, "<<<<<<<dari mpaas");
+                //     console.log(e, "<<<<<<<dari mpaas");
 
-                    return {}
+                //     return e
+                // })
+                window.my.onMessage = function(e:any){
+                    console.log(e, "<<<<<<<");
+                    let {message} = e
+                    setLatLang({
+                                    lat: +message.latitude,
+                                    long: +message.longitude
+                                })
                 }
-
-                setLatLang({
-                    lat: 51.505,
-                    long: -0.09
-                })
+                //     setLatLang({
+                //     lat: 51.505,
+                //     long: -0.09
+                // })
                 setInitLocate(true)
             } else {
                 setLatLang({
