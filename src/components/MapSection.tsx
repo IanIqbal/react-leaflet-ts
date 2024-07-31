@@ -6,13 +6,17 @@ import LocationMarker from './LocationMarker'
 import "leaflet-defaulticon-compatibility"
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import { RoutingMachine } from './RouteComp'
-import { CoordinateMap } from '../interface'
+import { CoordinateMap, Place } from '../interface'
 import InputSearch from './InputSearch'
-// import { Message } from '../interface'
+import "../styles/MapSection.css"
 interface mapType {
     latLang: CoordinateMap
     setLatLang: Dispatch<{ lat: number, long: number }>
-    destination: CoordinateMap 
+    destination: Place 
+    setDestination: Dispatch<Place>
+    setIsDestSet: Dispatch<boolean>
+    isDestSet:boolean
+    setIsPickupSet:Dispatch<boolean>
 }
 declare global {
     interface Window {
@@ -33,9 +37,9 @@ export default function MapSection() {
     const [initLocate, setInitLocate] = useState(false)
 
     const [pickup, setPickup] = useState<CoordinateMap>({ lat: 0, long: 0 })
-    const [isPickupSet, setIsPickupSet] = useState(false)
+    const [isPickupSet, setIsPickupSet] = useState(true)
 
-    const [destination, setDestination] = useState<CoordinateMap>({ lat: 0, long: 0 })
+    const [destination, setDestination] = useState<Place>(Object)
     const [isDestSet, setIsDestSet] = useState(false)
 
     const getLocation = () => {
@@ -89,15 +93,21 @@ export default function MapSection() {
             navigator.userAgent.indexOf("mPaaSClient") > -1
         ) {
             locateViaMpaas()
+            
             // locateViaReact()
         } else {
             locateLeafletApi()
         }
-    }, [])
 
+        
+    }, [])
+    useEffect(()=>{
+        console.log(isDestSet, isPickupSet);
+        
+    },[isDestSet, isPickupSet])
     return (
         <>
-            <MapContext.Provider value={{ latLang, setLatLang , destination}} >
+            <MapContext.Provider value={{ latLang, setLatLang , destination, setDestination, setIsDestSet, setIsPickupSet, isDestSet}} >
 
                 <div >
                     <div>
@@ -106,7 +116,7 @@ export default function MapSection() {
                         <InputSearch></InputSearch>
                         <button onClick={getLocation}>get location</button>
                     </div>
-                    {initLocate && <MapContainer style={{ height: "500px" }} center={[latLang.lat, latLang.long]} zoom={18} scrollWheelZoom={true}>
+                    {initLocate && <MapContainer style={{ height: "500px", maxHeight:"500px" }} center={[latLang.lat, latLang.long]} zoom={18} scrollWheelZoom={true}>
                         <TileLayer
 
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -115,7 +125,9 @@ export default function MapSection() {
 
                         </Marker>
                         <LocationMarker setLocate={setLocate} locate={locate} setLatLang={setLatLang} latLang={latLang} setInitLocate={setInitLocate} ></LocationMarker>
-                       {isPickupSet && isDestSet && <RoutingMachine  ></RoutingMachine>}
+                       {isPickupSet && isDestSet && 
+                           <RoutingMachine></RoutingMachine>
+                       }
                     </MapContainer>}
                 </div>
             </MapContext.Provider>

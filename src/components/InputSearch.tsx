@@ -1,36 +1,41 @@
 import axios from "axios";
 import "../styles/InputSearch.css"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PlaceList from "./PlaceList";
 import { Place } from "../interface";
+import { MapContext } from "./MapSection";
 const openStreetApi = "https://nominatim.openstreetmap.org"
 export default function InputSearch() {
+    const context = useContext(MapContext)
+
+    if (context == undefined) {
+        throw new Error("context is undefined")
+    }
+
+    const { destination, isDestSet, setIsDestSet } = context
     const [destResults, setDestResults] = useState([])
+    const [destinationInput, setDestinationInput] = useState("")
     const [isDisplayList, setIsDisplayList] = useState<boolean>(false)
-    // const [outputPlace, setOutputPlace] = useState([])
     const destinationHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
         try {
 
-            console.log(e.target.value, "<<<<<");
             let { value } = e.target
+
+            setDestinationInput(value)
             const { data } = await axios({
                 method: "get",
-                url: `${openStreetApi}/search?format=json&city=${value}&street=${value}&amenity=${value}`,
+                url: `${openStreetApi}/search?format=json&q=${value}`,
                 headers: {
                     "Content-Type": "json"
                 }
             })
 
-            console.log(data);
             setDestResults(data)
         } catch (error) {
             console.log(error);
-
         }
     }
-    const displayListHandler = () => {
-        setIsDisplayList(!isDisplayList)
-    }
+
 
     useEffect(() => {
         console.log(isDisplayList, "<<<< isDisplay");
@@ -46,13 +51,22 @@ export default function InputSearch() {
                 </div>
                 <div className="input-row">
                     <label>Destination</label>
-                    <input onFocus={displayListHandler} onDrop={displayListHandler} onBlur={displayListHandler} onAbort={displayListHandler} onChange={destinationHandler} type="text" />
+
+                    {
+                        !isDestSet ?
+                            <input value={destinationInput} onFocus={() => setIsDisplayList(true)} onChange={destinationHandler} type="text" />
+                            : <input value={destination.display_name} disabled ></input>
+                    }
+
+                    <button onClick={() => {if(!isDestSet && !isDisplayList){setDestinationInput("")};  setIsDisplayList(false); setIsDestSet(false); }} className="button-cancel">X</button>
                 </div>
             </div>
 
             {isDisplayList && <div className="place-list">
                 {destResults.map((el: Place) => (
-                    <PlaceList place={el} ></PlaceList>
+                    <div>
+                        <PlaceList place={el} setIsDisplayList={setIsDisplayList} ></PlaceList>
+                    </div>
                 ))}
             </div>}
         </>
