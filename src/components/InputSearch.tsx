@@ -12,7 +12,7 @@ export default function InputSearch() {
         throw new Error("context is undefined")
     }
 
-    const { destination, isDestSet, setIsDestSet } = context
+    const { destination, isDestSet, setIsDestSet, setLocate } = context
     const [destResults, setDestResults] = useState([])
     const [destinationInput, setDestinationInput] = useState("")
     const [isDisplayList, setIsDisplayList] = useState<boolean>(false)
@@ -58,7 +58,7 @@ export default function InputSearch() {
                             : <input value={destination.display_name} disabled ></input>
                     }
 
-                    <button onClick={() => {if(!isDestSet && !isDisplayList){setDestinationInput("")};  setIsDisplayList(false); setIsDestSet(false); }} className="button-cancel">X</button>
+                    <button onClick={() => {if(!isDestSet && !isDisplayList){setDestinationInput("")};  setIsDisplayList(false); setIsDestSet(false);setLocate(true) }} className="button-cancel">X</button>
                 </div>
             </div>
 

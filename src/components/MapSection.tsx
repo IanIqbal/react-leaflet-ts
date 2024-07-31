@@ -17,6 +17,7 @@ interface mapType {
     setIsDestSet: Dispatch<boolean>
     isDestSet:boolean
     setIsPickupSet:Dispatch<boolean>
+    setLocate:Dispatch<boolean>
 }
 declare global {
     interface Window {
@@ -107,7 +108,7 @@ export default function MapSection() {
     },[isDestSet, isPickupSet])
     return (
         <>
-            <MapContext.Provider value={{ latLang, setLatLang , destination, setDestination, setIsDestSet, setIsPickupSet, isDestSet}} >
+            <MapContext.Provider value={{ latLang, setLatLang , destination, setDestination, setIsDestSet, setIsPickupSet, isDestSet, setLocate}} >
 
                 <div >
                     <div>
