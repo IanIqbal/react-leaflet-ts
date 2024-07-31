@@ -1,0 +1,4 @@
+.place-row{
+    display: flex;
+    gap: 5px;
+}

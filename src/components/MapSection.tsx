@@ -6,10 +6,13 @@ import LocationMarker from './LocationMarker'
 import "leaflet-defaulticon-compatibility"
 import "leaflet-defaulticon-compatibility/dist/leaflet-defaulticon-compatibility.css"
 import { RoutingMachine } from './RouteComp'
+import { CoordinateMap } from '../interface'
+import InputSearch from './InputSearch'
 // import { Message } from '../interface'
 interface mapType {
-    latLang: { lat: number, long: number }
+    latLang: CoordinateMap
     setLatLang: Dispatch<{ lat: number, long: number }>
+    destination: CoordinateMap 
 }
 declare global {
     interface Window {
@@ -26,9 +29,17 @@ declare global {
 export const MapContext = createContext<mapType | undefined>(undefined)
 export default function MapSection() {
     const [locate, setLocate] = useState(false)
-    const [latLang, setLatLang] = useState({ lat: 0, long: 0 })
+    const [latLang, setLatLang] = useState<CoordinateMap>({ lat: 0, long: 0 })
     const [initLocate, setInitLocate] = useState(false)
+
+    const [pickup, setPickup] = useState<CoordinateMap>({ lat: 0, long: 0 })
+    const [isPickupSet, setIsPickupSet] = useState(false)
+
+    const [destination, setDestination] = useState<CoordinateMap>({ lat: 0, long: 0 })
+    const [isDestSet, setIsDestSet] = useState(false)
+
     const getLocation = () => {
+        // setInitLocate(false)
         setLocate(true)
     }
     const locateViaReact = () => {
@@ -63,16 +74,12 @@ export default function MapSection() {
                 lat: +message.latitude,
                 long: +message.longitude
             })
-            console.log(latLang, "<<< latlang");
             setInitLocate(true)
         }
     }
 
-    const locateHardCode = () => {
-        setLatLang({
-            lat: 51.505,
-            long: -0.09
-        })
+    const locateLeafletApi = () => {
+        getLocation()
         setInitLocate(true)
     }
     useEffect(() => {
@@ -84,18 +91,19 @@ export default function MapSection() {
             locateViaMpaas()
             // locateViaReact()
         } else {
-            locateHardCode()
+            locateLeafletApi()
         }
     }, [])
 
     return (
         <>
-            <MapContext.Provider value={{ latLang, setLatLang }} >
+            <MapContext.Provider value={{ latLang, setLatLang , destination}} >
 
                 <div >
                     <div>
                         <p>MAP</p>
                         <p>{latLang.lat} & {latLang.long}</p>
+                        <InputSearch></InputSearch>
                         <button onClick={getLocation}>get location</button>
                     </div>
                     {initLocate && <MapContainer style={{ height: "500px" }} center={[latLang.lat, latLang.long]} zoom={18} scrollWheelZoom={true}>
@@ -106,8 +114,8 @@ export default function MapSection() {
                         <Marker position={[latLang.lat, latLang.long]}>
 
                         </Marker>
-                        <LocationMarker setLocate={setLocate} locate={locate} ></LocationMarker>
-                        <RoutingMachine  ></RoutingMachine>
+                        <LocationMarker setLocate={setLocate} locate={locate} setLatLang={setLatLang} latLang={latLang} setInitLocate={setInitLocate} ></LocationMarker>
+                       {isPickupSet && isDestSet && <RoutingMachine  ></RoutingMachine>}
                     </MapContainer>}
                 </div>
             </MapContext.Provider>

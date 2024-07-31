@@ -6,10 +6,11 @@ import { Marker, useMap, useMapEvents } from "react-leaflet";
 interface LocationMarkerProps {
     setLocate: Dispatch<boolean>
     locate: boolean
-    // latLang:{lat: number, long:number}
-    // setLatLang: Dispatch<{lat: number, long:number}>
+    latLang:{lat: number, long:number}
+    setLatLang: Dispatch<{lat: number, long:number}>
+    setInitLocate:Dispatch<boolean>
 }
-export default function LocationMarker({ setLocate, locate }: LocationMarkerProps) {
+export default function LocationMarker({ setLocate, locate, setLatLang, setInitLocate }: LocationMarkerProps) {
     const [position, setPosition] = useState({ lat: 0, lng: 0 });
     const mapAlt = useMap()
     const map = useMapEvents({
@@ -17,8 +18,10 @@ export default function LocationMarker({ setLocate, locate }: LocationMarkerProp
             console.log(e, "<<<<<");
             let { lat, lng } = e.latlng
             setPosition({ lat, lng });
+            setLatLang({lat, long:lng})
             map.flyTo(e.latlng, 18);
             setLocate(false)
+            setInitLocate(true)
         }
     });
     const locViaMp = async ()=>{
@@ -61,9 +64,9 @@ export default function LocationMarker({ setLocate, locate }: LocationMarkerProp
     return position === null ? null : (
         <>
             <h1>test</h1>
-            <Marker position={position} >
-                {/* <Popup>You are here</Popup> */}
-            </Marker>
+            {/* <Marker position={position} >
+                <Popup>You are here</Popup>
+            </Marker> */}
         </>
     );
 };

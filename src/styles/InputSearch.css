@@ -1,0 +1,15 @@
+.input-row{
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+}
+.input-container{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.place-list{
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+}

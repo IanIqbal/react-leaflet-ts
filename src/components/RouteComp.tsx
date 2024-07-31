@@ -11,13 +11,13 @@ const RoutingInstance = () => {
     if(context == undefined){
         throw new Error("context is undefined")
     }
-    const {latLang} = context
+    const {latLang, destination} = context
     // console.log(latLang, "<<<<<<<<");
     
     const instance = L.Routing.control({
         waypoints: [
             L.latLng(latLang.lat, latLang.long ),
-            L.latLng(latLang.lat + 0.20, latLang.long + 0.20)
+            L.latLng(destination?.lat, destination?.long)
         ],
         lineOptions: {
             styles: [{ color: "#6FA1EC", weight: 4 }],
