@@ -17,6 +17,19 @@
 //     }
 // }
 
-export interface Message{
-    message:string
+export interface Message {
+  message: string;
+}
+
+import "leaflet";
+declare module "leaflet" {
+  interface MarkerOptions {
+    rotationAngle?: number;
+    rotationOrigin?: string;
+  }
+
+  interface Marker {
+    setRotationAngle(newAngle: number): this;
+    setRotationOrigin(newOrigin: string): this;
+  }
 }
