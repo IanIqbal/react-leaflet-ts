@@ -1,5 +1,5 @@
 'use client'
-import { MapContainer, Marker, Popup, TileLayer, useMap } from 'react-leaflet'
+import { MapContainer, Marker, Popup, TileLayer, useMap, CircleMarker } from 'react-leaflet'
 import 'leaflet/dist/leaflet.css'
 import { createContext, Dispatch, useEffect, useState } from 'react'
 import LocationMarker from './LocationMarker'
@@ -12,12 +12,19 @@ import "../styles/MapSection.css"
 interface mapType {
     latLang: CoordinateMap
     setLatLang: Dispatch<{ lat: number, long: number }>
+
     destination: Place 
     setDestination: Dispatch<Place>
     setIsDestSet: Dispatch<boolean>
     isDestSet:boolean
+
+    pickup:Place
+    isPickupSet:boolean
     setIsPickupSet:Dispatch<boolean>
+    setPickup:Dispatch<Place>
+
     setLocate:Dispatch<boolean>
+
 }
 declare global {
     interface Window {
@@ -37,8 +44,8 @@ export default function MapSection() {
     const [latLang, setLatLang] = useState<CoordinateMap>({ lat: 0, long: 0 })
     const [initLocate, setInitLocate] = useState(false)
 
-    const [pickup, setPickup] = useState<CoordinateMap>({ lat: 0, long: 0 })
-    const [isPickupSet, setIsPickupSet] = useState(true)
+    const [pickup, setPickup] = useState<Place>(Object)
+    const [isPickupSet, setIsPickupSet] = useState(false)
 
     const [destination, setDestination] = useState<Place>(Object)
     const [isDestSet, setIsDestSet] = useState(false)
@@ -108,7 +115,7 @@ export default function MapSection() {
     },[isDestSet, isPickupSet])
     return (
         <>
-            <MapContext.Provider value={{ latLang, setLatLang , destination, setDestination, setIsDestSet, setIsPickupSet, isDestSet, setLocate}} >
+            <MapContext.Provider value={{ latLang, setLatLang , destination, setDestination, setIsDestSet, setIsPickupSet, isDestSet, setLocate, pickup, setPickup, isPickupSet}} >
 
                 <div >
                     <div>
@@ -122,9 +129,9 @@ export default function MapSection() {
 
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                         />
-                        <Marker position={[latLang.lat, latLang.long]}>
+                        <CircleMarker radius={10} center={[latLang.lat, latLang.long]}>
 
-                        </Marker>
+                        </CircleMarker>
                         <LocationMarker setLocate={setLocate} locate={locate} setLatLang={setLatLang} latLang={latLang} setInitLocate={setInitLocate} ></LocationMarker>
                        {isPickupSet && isDestSet && 
                            <RoutingMachine></RoutingMachine>
